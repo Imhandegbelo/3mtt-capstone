@@ -4,8 +4,9 @@ import menu from "../assets/images/menu.svg";
 import { SearchBar } from "./SearchBar";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-export default function Navbar() {
+export default function Navbar({color}) {
   const [searchQuery, onSearchQueryChange] = useState("");
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -43,17 +44,22 @@ export default function Navbar() {
   }, [searchQuery]);
 
   return (
-    <nav className="absolute px-2 sm:px-4 md:px-6 lg:px-24 z-10 top-0 flex justify-between text-white py-6 w-full h-20 items-center">
-      <img src={tv} alt="tv-logo" className="w-8 h-8 lg:hidden" />
-      <img src={logo} alt="moviebox" className="hidden lg:block" />
+    <nav className={`absolute px-2 sm:px-4 md:px-6 lg:px-24 z-10 top-0 flex justify-between ${color} py-6 w-full h-20 items-center`}>
+      <Link to="/">
+        <img src={tv} alt="tv-logo" className="w-8 h-8 lg:hidden" />
+        <img src={logo} alt="moviebox" className="hidden lg:block" />
+      </Link>
       <SearchBar searchQuery={searchQuery} onSearchQueryChange={handleChange} />
       <div className="flex gap-6">
-        <button className="text-base font-bold items-center hidden sm:block">
-          Sign in
-        </button>
+        <Link
+          to="/login"
+          className="text-base font-bold items-center hidden sm:block"
+        >
+          Login
+        </Link>
         <button
           onClick={""}
-          className="flex w-8 h-8 bg-rose-700 rounded-full items-center"
+          className="md:hidden flex w-8 h-8 bg-rose-700 rounded-full items-center"
         >
           <img src={menu} alt="menu" className="h-6 w-6 mx-auto" />
         </button>

@@ -21,7 +21,7 @@ export function HeroSection({ moviesArray }) {
         {hero_movies.length > 0 && (
           <div className="relative">
             <div className="absolute top-0 left-0 right-0 bottom-0 w-full h-[600px] bg-black bg-opacity-70"></div>
-            <Navbar />
+            <Navbar color={"text-white"} />
 
             <div className="absolute h-full flex items-end sm:items-center p-6 lg:pl-24">
               <DescriptionBox
