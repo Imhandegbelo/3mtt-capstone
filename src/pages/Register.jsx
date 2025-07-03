@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import Input from "../components/Input";
 // import api from "../../lib/api";
@@ -9,20 +9,26 @@ const Register = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleChange = () => {
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    // e.preventDefault();
     setError("");
 
-    try {
-      // await api.post("/api/auth/register", form);
-      navigate("/login"); // redirect after successful registration
-    } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+    if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(form.email)) {
+      setError("Invalid email address");
+      console.log("Invalid email address");
+      return;
     }
+
+    // try {
+    //   // await api.post("/api/auth/register", form);
+    //   navigate("/login"); // redirect after successful registration
+    // } catch (err) {
+    //   setError(err.response?.data?.message || "Registration failed");
+    // }
   };
 
   return (
@@ -30,15 +36,17 @@ const Register = () => {
       <h2 className="text-2xl font-bold text-center text-rose-700 mb-6">
         Create Account
       </h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <Input
           label="Full Name"
+          id="name"
           name="name"
           value={form.name}
           onChange={handleChange}
         />
         <Input
           label="Email"
+          id="email"
           name="email"
           type="email"
           value={form.email}
@@ -46,6 +54,7 @@ const Register = () => {
         />
         <Input
           label="Password"
+          id="password"
           name="password"
           type="password"
           value={form.password}
@@ -55,8 +64,9 @@ const Register = () => {
         {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
 
         <button
-          type="submit"
+          type="button"
           className="w-full bg-rose-700 text-white py-2 rounded-lg mt-4 hover:bg-rose-800 transition"
+          onClick={handleSubmit}
         >
           Register
         </button>

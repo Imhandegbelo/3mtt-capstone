@@ -34,7 +34,7 @@ export default function Footer() {
           </Link>
         </div>
         <p className="text-gray-500">
-          &copy; 2021 MovieBox by <a href="https://github.com/Imhandegbelo" target="_blank" className="text-gray-400 hover:text-gray-900 active:text-gray-900 visited:text-gray-900">George Imhandgbelo</a>
+          &copy; 2025 MovieBox by <a href="https://github.com/Imhandegbelo" target="_blank" className="text-gray-400 hover:text-gray-900 active:text-gray-900 visited:text-gray-900">George Imhandgbelo</a>
         </p>
       </div>
     </footer>

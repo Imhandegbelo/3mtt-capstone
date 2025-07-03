@@ -5,8 +5,10 @@ import { SearchBar } from "./SearchBar";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar({color}) {
+  const location = useLocation()
   const [searchQuery, onSearchQueryChange] = useState("");
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,7 +51,9 @@ export default function Navbar({color}) {
         <img src={tv} alt="tv-logo" className="w-8 h-8 lg:hidden" />
         <img src={logo} alt="moviebox" className="hidden lg:block" />
       </Link>
+      {location.pathname === "/" && 
       <SearchBar searchQuery={searchQuery} onSearchQueryChange={handleChange} />
+      }
       <div className="flex gap-6">
         <Link
           to="/login"
