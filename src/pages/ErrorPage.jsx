@@ -7,7 +7,7 @@ export function ErrorPage() {
         <p className="py-4">The requested resource could not be found</p>
         <div className="flex justify-evenly text-center">
           <Link
-            to="/movie"
+            to="/"
             className="py-2 px-4 rounded bg-rose-700 text-white font-bold border border-rose-700 hover:text-rose-700 hover:bg-white active:text-rose-700 active:bg-white"
           >
             Home

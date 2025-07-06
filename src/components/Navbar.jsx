@@ -47,6 +47,10 @@ export default function Navbar({ color }) {
   //   }
   // }, [searchQuery]);
 
+  const handleChange = async (event) => {
+    const query = event.target.value;
+  }
+
   return (
     <nav
       className={`absolute px-2 sm:px-4 md:px-6 lg:px-24 z-10 top-0 flex justify-between ${color} py-6 w-full h-20 items-center`}
@@ -64,14 +68,13 @@ export default function Navbar({ color }) {
       <div className="flex gap-6">
         {!user ? (
           <Link
-            to="/login"
+            to="/auth/login"
             className="text-base font-bold items-center hidden sm:block"
           >
             Login
           </Link>
         ) : (
           <div className="flex gap-2">
-            <h1>{user.username}</h1>
             <button onClick={logout}>Logout</button>
           </div>
         )}
