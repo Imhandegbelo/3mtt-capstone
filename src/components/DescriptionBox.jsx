@@ -30,7 +30,7 @@ export default function DescriptionBox(props) {
         <div>
           <Link
             to={link}
-            className="inline-flex rounded rounded-6 items-center font-medium leading-normal text-white gap-2 px-4 py-1.5 transition duration-150 ease-in-out bg-rose-700 hover:bg-rose-600 focus:bg-rose-600 active:bg-rose-700"
+            className="inline-flex rounded rounded-6 items-center font-medium leading-normal text-white gap-2 px-4 py-1.5 transition duration-150 ease-in-out whitespace-nowrap bg-rose-700 hover:bg-rose-600 focus:bg-rose-600 active:bg-rose-700"
             data-te-ripple-init
             data-te-ripple-color="light"
           >

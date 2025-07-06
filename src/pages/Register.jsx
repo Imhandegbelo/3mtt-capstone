@@ -65,6 +65,7 @@ const Register = () => {
 
         <button
           type="button"
+          disabled={form.email.length < 5 || form.password.length < 5}
           className="w-full bg-rose-700 text-white py-2 rounded-lg mt-4 hover:bg-rose-800 transition"
           onClick={handleSubmit}
         >

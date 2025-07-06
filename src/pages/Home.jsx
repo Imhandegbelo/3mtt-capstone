@@ -13,9 +13,8 @@ export default function Home() {
 
   const apiKey = import.meta.env.VITE_API_KEY;
   useEffect(() => {
-    console.log(apiKey)
     // const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&primary_release_year=2023&sort_by=vote_average.desc&vote_count.gte=1000`;
-    const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&primary_release_year=2023&sort_by=vote_average.desc`;
+    const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&primary_release_year=2025&sort_by=vote_average.desc`;
     axios
       .get(apiUrl)
       .then((res) => {

@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { userLogin, registerUser } from "../services/userServices";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext(null);
 
@@ -58,15 +59,15 @@ export const AuthProvider = ({ children }) => {
 
   const login = useCallback(
     async (userData) => {
-      try {
-        const res = userLogin(userData);
+      const res = await userLogin(userData);
+      if (res.status === 200) {
         setToken(res.data.token);
         refreshUser(res.data.user);
 
         navigate("/");
-      } catch (error) {
-        console.error("Login failed::", error);
-        throw error; // or handle it more gracefully, e.g. toast notification
+      } else {
+        toast.error(res.data.error);
+        console.error("Error::", res.data);
       }
     },
     [navigate]
@@ -74,15 +75,15 @@ export const AuthProvider = ({ children }) => {
 
   const register = useCallback(
     async (userData) => {
-      try {
-        const res = await registerUser(userData);
+      const res = await registerUser(userData);
+      if (res.status === 200) {
         setToken(res.data.token);
         refreshUser(res.data.user);
 
         navigate("/");
-      } catch (error) {
+      } else {
+        toast.error(res.data.error);
         console.error("Registration failed::", error);
-        throw error;
       }
     },
     [navigate]

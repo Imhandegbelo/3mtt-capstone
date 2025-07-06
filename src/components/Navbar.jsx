@@ -6,63 +6,77 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
-export default function Navbar({color}) {
-  const location = useLocation()
+export default function Navbar({ color }) {
+  const { user, logout } = useAuth();
+  const location = useLocation();
   const [searchQuery, onSearchQueryChange] = useState("");
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const apiKey = "2c580b58c9354d8e7393cfd454223f73";
-  const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchQuery}`;
+  // const apiKey = "2c580b58c9354d8e7393cfd454223f73";
+  // const apiUrl = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchQuery}`;
 
-  axios.get(apiUrl).then((res) => {
-    setSearchedMovies(res.data.results);
-  });
-  const handleChange = async (event) => {
-    onSearchQueryChange(event.target.value);
-    setLoading(true); //start loading
+  // axios.get(apiUrl).then((res) => {
+  //   setSearchedMovies(res.data.results);
+  // });
+  // const handleChange = async (event) => {
+  //   onSearchQueryChange(event.target.value);
+  //   setLoading(true); //start loading
 
-    try {
-      const result = await axios.get(apiUrl);
+  //   try {
+  //     const result = await axios.get(apiUrl);
 
-      if (result.data.results) {
-        setSearchedMovies(result.data.results);
-      } else {
-        setSearchedMovies([]); // Clear the results if there are no matching movies
-      }
-    } catch (error) {
-      console.error("An Error occured", error);
-    } finally {
-      setLoading(false); //stop loading (no results)
-    }
-  };
+  //     if (result.data.results) {
+  //       setSearchedMovies(result.data.results);
+  //     } else {
+  //       setSearchedMovies([]); // Clear the results if there are no matching movies
+  //     }
+  //   } catch (error) {
+  //     console.error("An Error occured", error);
+  //   } finally {
+  //     setLoading(false); //stop loading (no results)
+  //   }
+  // };
 
-  useEffect(() => {
-    if (searchQuery.length.trim === "") {
-      setSearchedMovies([]);
-      return;
-    }
-  }, [searchQuery]);
+  // useEffect(() => {
+  //   if (searchQuery.length.trim === "") {
+  //     setSearchedMovies([]);
+  //     return;
+  //   }
+  // }, [searchQuery]);
 
   return (
-    <nav className={`absolute px-2 sm:px-4 md:px-6 lg:px-24 z-10 top-0 flex justify-between ${color} py-6 w-full h-20 items-center`}>
+    <nav
+      className={`absolute px-2 sm:px-4 md:px-6 lg:px-24 z-10 top-0 flex justify-between ${color} py-6 w-full h-20 items-center`}
+    >
       <Link to="/">
         <img src={tv} alt="tv-logo" className="w-8 h-8 lg:hidden" />
         <img src={logo} alt="moviebox" className="hidden lg:block" />
       </Link>
-      {location.pathname === "/" && 
-      <SearchBar searchQuery={searchQuery} onSearchQueryChange={handleChange} />
-      }
+      {location.pathname === "/" && (
+        <SearchBar
+          searchQuery={searchQuery}
+          onSearchQueryChange={handleChange}
+        />
+      )}
       <div className="flex gap-6">
-        <Link
-          to="/login"
-          className="text-base font-bold items-center hidden sm:block"
-        >
-          Login
-        </Link>
+        {!user ? (
+          <Link
+            to="/login"
+            className="text-base font-bold items-center hidden sm:block"
+          >
+            Login
+          </Link>
+        ) : (
+          <div className="flex gap-2">
+            <h1>{user.username}</h1>
+            <button onClick={logout}>Logout</button>
+          </div>
+        )}
         <button
-          onClick={""}
+          // onClick={""}
           className="md:hidden flex w-8 h-8 bg-rose-700 rounded-full items-center"
         >
           <img src={menu} alt="menu" className="h-6 w-6 mx-auto" />
@@ -90,7 +104,7 @@ export default function Navbar({color}) {
                 : "top-[67px] h-0"
             }  z-10 px-2 md:px-6 py-2 custom-scrollbar overflow-y-scroll  `}
           >
-            {searchedMovies?.map((movie) => (
+            {/* {searchedMovies?.map((movie) => (
               <div className="flex gap-6">
                 <div className="w-10 md:w-20 ">
                   <img
@@ -103,7 +117,7 @@ export default function Navbar({color}) {
                   <p className="text-rose-700">{movie.release_date}</p>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
         )}
       </div>

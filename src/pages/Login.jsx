@@ -1,10 +1,13 @@
 import { useState } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import Input from "../components/Input";
-// import api from "../../lib/api";
 import { Link, useNavigate } from "react-router-dom";
+// import { userLogin } from "../services/userServices";
+import { useAuth } from "../context/authContext";
+// import { userLogin } from "../services/userServices";
 
 const Login = () => {
+  const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -13,18 +16,15 @@ const Login = () => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async () => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     setError("");
-    console.log(form);
 
-    // try {
-    //   const res = await api.post("/api/auth/login", form);
-    //   localStorage.setItem("token", res.data.token); // save JWT
-    //   navigate("/dashboard"); // redirect after login
-    // } catch (err) {
-    //   setError(err.response?.data?.message || "Login failed");
-    // }
+    try {
+      await login(form);
+    } catch (err) {
+      setError(err.response?.data?.error || "Login failed");
+    }
   };
 
   return (
@@ -53,7 +53,8 @@ const Login = () => {
         {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
 
         <button
-          className="w-full bg-rose-700 text-white py-2 rounded-lg mt-4 hover:bg-rose-800 transition"
+          disabled={form.email.length < 5 || form.password.length < 5}
+          className="w-full bg-rose-700 text-white py-2 rounded-lg mt-4 hover:bg-rose-800 transition disabled:bg-gray-300"
           onClick={handleSubmit}
         >
           Sign In
