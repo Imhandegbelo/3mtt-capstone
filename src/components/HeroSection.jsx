@@ -32,7 +32,6 @@ export function HeroSection({ moviesArray }) {
               />
             </div>
             <img
-              data-testid="movie-poster"
               src={`https://image.tmdb.org/t/p/original${hero_movies[movieIndex].backdrop_path}`}
               className="h-[600px] w-full object-cover object-center"
               alt={hero_movies[movieIndex].title}

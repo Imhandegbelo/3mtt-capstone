@@ -9,11 +9,25 @@ export const userLogin = async (userData) => {
 
 export const registerUser = async (userData) => {
   const response = await axios.post(`${BASE_URL}/auth/register`, { userData });
-  if (response.status !== 200) {
-    return Promise.reject(new Error("Login failed"));
-  } else {
-    return response.data;
-  }
+  return response;
 };
 
-// modules.exports = {userLogin,registerUser}
+export const searchMovies = async (query) => {
+  const response = await axios.get(`${BASE_URL}/search/movie`, { query });
+  return response.data;
+};
+
+export const addFavourites = async (movieId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  console.log("From service:::", movieId)
+  const response = await axios.post(
+    `${BASE_URL}/users/favorites`,
+    movieId,
+    config
+  );
+  return response.data;
+};

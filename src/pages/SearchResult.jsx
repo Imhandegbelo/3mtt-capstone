@@ -9,7 +9,14 @@ function SearchResult() {
 
   useEffect(() => {
     setLoading(true);
+    const query = new URLSearchParams(window.location.search).get("query");
+    if (!query) {
+      setMovies([]);
+      setLoading(false);
+      return;
+    }
 
+    
     setLoading(false);
   });
 

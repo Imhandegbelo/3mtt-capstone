@@ -2,6 +2,7 @@ import facebook from "../assets/images/facebook.svg";
 import instagram from "../assets/images/instagram.svg";
 import twitter from "../assets/images/twitter.svg";
 import youtube from "../assets/images/youtube.svg";
+import tmdb from "../assets/images/tmdb.svg";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -13,7 +14,11 @@ export default function Footer() {
             <img src={facebook} alt="facebook" className="w-[24px] h-auto" />
           </Link>
           <Link to="#">
-            <img src={instagram} alt="instagram" className="w-[24px] h-auto hover:text-gray-700" />
+            <img
+              src={instagram}
+              alt="instagram"
+              className="w-[24px] h-auto hover:text-gray-700"
+            />
           </Link>
           <Link to="#">
             <img src={twitter} alt="twitter" className="w-[24px] h-auto" />
@@ -34,7 +39,20 @@ export default function Footer() {
           </Link>
         </div>
         <p className="text-gray-500">
-          &copy; 2025 MovieBox by <a href="https://github.com/Imhandegbelo" target="_blank" className="text-gray-400 hover:text-gray-900 active:text-gray-900 visited:text-gray-900">George Imhandgbelo</a>
+          &copy; 2025 MovieBox by{" "}
+          <a
+            href="https://github.com/Imhandegbelo"
+            target="_blank"
+            className="text-gray-400 hover:text-gray-900 active:text-gray-900 visited:text-gray-900"
+          >
+            George Imhandgbelo
+          </a>
+        </p>
+        <p className="flex items-center gap-2 w-fit mx-auto text-gray-500">
+          API from{" "}
+          <a href="https://themoviedb.org" target="_blank">
+            <img src={tmdb} alt="The movie database" className="h-2" />
+          </a>
         </p>
       </div>
     </footer>

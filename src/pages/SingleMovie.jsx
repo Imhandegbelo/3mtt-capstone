@@ -16,7 +16,7 @@ export function SingleMovie() {
   const [movie, setMovie] = useState(null);
   const [genre, setGenre] = useState(null);
   const [directors, setDirectors] = useState([]);
-  // const [writers, setWriters] = useState([]);
+  const [writers, setWriters] = useState([]);
 
   const apiKey = import.meta.env.VITE_API_KEY;
   useEffect(() => {
@@ -53,8 +53,14 @@ export function SingleMovie() {
     axios
       .get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`)
       .then((response) => {
-        let arr = response.data.crew.filter(({ job }) => job === "Director");
-        arr.forEach((crew) => setDirectors(crew.name));
+        let directorList = response.data.crew.filter(
+          ({ job }) => job === "Director"
+        );
+        setDirectors(directorList);
+        let writerList = response.data.crew.filter(
+          ({ department }) => department === "Writing"
+        );
+        setWriters(writerList);
       })
       .catch((error) => {
         console.log("Error fetching credits", error);
@@ -68,27 +74,24 @@ export function SingleMovie() {
   return (
     <>
       {/* <SingleMovieNav/> */}
-      <div className="flex font-Poppins mx-w-[1440px] mx-auto">
-        <div className="w-full basis-1/12 md:block md:basis-2/12">
-          <MovieSidebar id={id} />
+      <div className="flex font-Poppins max-w-[1440px] mx-auto">
+        <div className="w-full h-screen basis-1/12 md:block md:basis-2/12">
+          <div className="w-full fixed">
+            <MovieSidebar id={id} />
+          </div>
         </div>
         {!movie ? (
           <div className="basis-11/12 md:basis-10/12">
             <Loading text={"Loading"} />
           </div>
         ) : (
-          <div className="px-6 md:p-3 w-full md:basis-10/12 sm:mx-2 my-9">
+          <div className="px-6 md:p-3 basis-11/12 md:basis-10/12 sm:mx-2 my-9 overflow-auto">
             <iframe
               src={`https://www.youtube.com/embed/${movie?.videos?.results[0]?.key}`}
-              titte={movie?.title}
+              title={movie?.title}
               allowFullScreen
               className="rounded-2xl border w-full h-[450px]"
             ></iframe>
-            {/* <img
-              src={`https://image.tmdb.org/t/p/w500${movie?.backdrop_path}`}
-              alt={movie?.title}
-              className="rounded-3xl h-[450px] w-full object-cover object-center"
-            /> */}
             <div className="mt-6 flex flex-col gap-6">
               <div className="flex justify-between text-stone-700">
                 <div className="flex flex-wrap gap-2">
@@ -132,28 +135,31 @@ export function SingleMovie() {
               </div>
               <div className="flex flex-col md:flex md:flex-row gap-4 md:gap-2">
                 <div className="flex flex-col gap-4 w-full md:w-2/3 text-sm sm:text-md md:text-lg">
-                  <p data-testid="movie-overview" className="text-zinc-800">
-                    {movie?.overview}
-                  </p>
+                  <p className="text-zinc-800">{movie?.overview}</p>
                   <div className="grid sm:gap-2 md:gap-3 lg:gap-4">
                     <p className="">
-                      Director:{" "}
-                      <span className="text-rose-700">{directors}</span>{" "}
+                      Director(s):{" "}
+                      {directors.map((director, index) => (
+                        <span key={`dir-${index}`} className="text-rose-700">
+                          {director.name + " - "}
+                        </span>
+                      ))}
                     </p>
                     <p className="">
                       Writers:{" "}
-                      <span className="text-rose-700">
-                        {" "}
-                        Jim Cash, Jack Epps Jr, Peter Kosinski
-                      </span>{" "}
+                      {writers.map((writer, index) => (
+                        <span key={`writer-${index}`} className="text-rose-700">
+                          {writer.name + " - "}
+                        </span>
+                      ))}
                     </p>
-                    <p className="">
+                    {/* <p className="">
                       Writers:{" "}
                       <span className="text-rose-700">
                         {" "}
                         Tom Cruise, Jennifer Connelly
                       </span>{" "}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
                 <div className="flex flex-col w-full md:w-1/3 gap-4">

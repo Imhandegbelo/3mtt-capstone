@@ -11,7 +11,6 @@ import { useAuth } from "../context/authContext";
 export default function Navbar({ color }) {
   const { user, logout } = useAuth();
   const location = useLocation();
-  const [searchQuery, onSearchQueryChange] = useState("");
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -47,9 +46,6 @@ export default function Navbar({ color }) {
   //   }
   // }, [searchQuery]);
 
-  const handleChange = async (event) => {
-    const query = event.target.value;
-  }
 
   return (
     <nav
@@ -59,12 +55,7 @@ export default function Navbar({ color }) {
         <img src={tv} alt="tv-logo" className="w-8 h-8 lg:hidden" />
         <img src={logo} alt="moviebox" className="hidden lg:block" />
       </Link>
-      {location.pathname === "/" && (
-        <SearchBar
-          searchQuery={searchQuery}
-          onSearchQueryChange={handleChange}
-        />
-      )}
+      {location.pathname === "/" && <SearchBar />}
       <div className="flex gap-6">
         {!user ? (
           <Link
@@ -85,7 +76,7 @@ export default function Navbar({ color }) {
           <img src={menu} alt="menu" className="h-6 w-6 mx-auto" />
         </button>
       </div>
-      <div
+      {/* <div
         className={`${
           loading ? "block" : "hidden"
         } absolute w-full top-[6rem] right-0`}
@@ -107,7 +98,7 @@ export default function Navbar({ color }) {
                 : "top-[67px] h-0"
             }  z-10 px-2 md:px-6 py-2 custom-scrollbar overflow-y-scroll  `}
           >
-            {/* {searchedMovies?.map((movie) => (
+             {searchedMovies?.map((movie) => (
               <div className="flex gap-6">
                 <div className="w-10 md:w-20 ">
                   <img
@@ -120,10 +111,10 @@ export default function Navbar({ color }) {
                   <p className="text-rose-700">{movie.release_date}</p>
                 </div>
               </div>
-            ))} */}
+            ))}
           </div>
         )}
-      </div>
+      </div> */}
     </nav>
   );
 }

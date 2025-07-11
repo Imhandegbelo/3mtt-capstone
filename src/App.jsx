@@ -6,6 +6,7 @@ import { ErrorPage } from "./pages/ErrorPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Favourites from "./pages/Favourites";
+import SearchResult from "./pages/SearchResult";
 import { AuthProvider } from "./context/authContext";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/auth/login" element={<Login />} />
           <Route path="/auth/register" element={<Register />} />
           <Route path="/favourites" element={<Favourites />} />
+          <Route path="/search" element={<SearchResult />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </AuthProvider>
