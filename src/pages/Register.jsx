@@ -1,34 +1,31 @@
 import { useState } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import Input from "../components/Input";
-// import api from "../../lib/api";
+import { useAuth } from "../context/authContext";
 import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const { register } = useAuth();
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    // e.preventDefault();
+  const handleSubmit = async () => {
     setError("");
 
     if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(form.email)) {
       setError("Invalid email address");
-      console.log("Invalid email address");
       return;
     }
 
-    // try {
-    //   // await api.post("/api/auth/register", form);
-    //   navigate("/login"); // redirect after successful registration
-    // } catch (err) {
-    //   setError(err.response?.data?.message || "Registration failed");
-    // }
+    try {
+      await register(form);
+    } catch (err) {
+      setError(err.response?.data?.error || "Registration failed");
+    }
   };
 
   return (
@@ -38,10 +35,10 @@ const Register = () => {
       </h2>
       <form onSubmit={(e) => e.preventDefault()}>
         <Input
-          label="Full Name"
-          id="name"
-          name="name"
-          value={form.name}
+          label="Username"
+          id="username"
+          name="username"
+          value={form.username}
           onChange={handleChange}
         />
         <Input
@@ -75,7 +72,7 @@ const Register = () => {
       <p className="mt-4 text-sm text-center">
         Already have an account?{" "}
         <Link
-          to="/login"
+          to="/auth/login"
           className="text-rose-700 font-semibold hover:underline"
         >
           Login

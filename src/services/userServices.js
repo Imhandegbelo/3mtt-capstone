@@ -8,7 +8,7 @@ export const userLogin = async (userData) => {
 };
 
 export const registerUser = async (userData) => {
-  const response = await axios.post(`${BASE_URL}/auth/register`, { userData });
+  const response = await axios.post(`${BASE_URL}/auth/register`, userData);
   return response;
 };
 
@@ -23,9 +23,9 @@ export const addFavourites = async (movieId, token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log("From service:::", movieId)
+
   const response = await axios.post(
-    `${BASE_URL}/users/favorites`,
+    `${BASE_URL}/users/favourites`,
     movieId,
     config
   );

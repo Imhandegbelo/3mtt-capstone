@@ -16,8 +16,7 @@ const Login = () => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
     setError("");
 
     try {
@@ -63,7 +62,7 @@ const Login = () => {
       <p className="mt-4 text-sm text-center">
         Don’t have an account?{" "}
         <Link
-          to="/register"
+          to="/auth/register"
           className="text-rose-700 font-semibold hover:underline"
         >
           Register

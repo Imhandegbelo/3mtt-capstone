@@ -76,14 +76,14 @@ export const AuthProvider = ({ children }) => {
   const register = useCallback(
     async (userData) => {
       const res = await registerUser(userData);
-      if (res.status === 200) {
+      if (res.status === 201) {
         setToken(res.data.token);
         refreshUser(res.data.user);
 
         navigate("/");
       } else {
         toast.error(res.data.error);
-        console.error("Registration failed::", error);
+        console.error("Registration failed::", res.data);
       }
     },
     [navigate]
