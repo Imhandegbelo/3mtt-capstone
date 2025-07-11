@@ -24,48 +24,21 @@ export function SingleMovie() {
     axios
       .get(apiUrl)
       .then((res) => {
+        console.log("Response:::", res);
         setMovie(res.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching movie details:", error);
-      });
-  }, [id]);
-
-  useEffect(() => {
-    // const genreUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
-    const genreUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=videos,credits`;
-    axios
-      .get(genreUrl)
-      .then((res) => {
-        const genreArray = [];
-        res.data.genres.forEach((genre) => {
-          genreArray[genre.id] = genre.name;
-        });
-        setGenre(genreArray);
-      })
-      .catch((err) => {
-        console.log("An error occured", err);
-      });
-  }, []);
-
-  useEffect(() => {
-    // https://api.themoviedb.org/3/movie/157336?api_key=API_KEY&append_to_response=videos
-    axios
-      .get(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`)
-      .then((response) => {
-        let directorList = response.data.crew.filter(
+        let directorList = res.data.credits.crew.filter(
           ({ job }) => job === "Director"
         );
         setDirectors(directorList);
-        let writerList = response.data.crew.filter(
+        let writerList = res.data.credits.crew.filter(
           ({ department }) => department === "Writing"
         );
         setWriters(writerList);
       })
       .catch((error) => {
-        console.log("Error fetching credits", error);
+        console.error("Error fetching movie details:", error);
       });
-  });
+  }, [id]);
 
   document.title = `${movie?.title}`;
   const releaseDate = new Date(movie?.release_date);
@@ -73,10 +46,9 @@ export function SingleMovie() {
 
   return (
     <>
-      {/* <SingleMovieNav/> */}
       <div className="flex font-Poppins max-w-[1440px] mx-auto">
         <div className="w-full h-screen basis-1/12 md:block md:basis-2/12">
-          <div className="w-full fixed">
+          <div className="w-full border-4 fixed">
             <MovieSidebar id={id} />
           </div>
         </div>
@@ -93,46 +65,40 @@ export function SingleMovie() {
               className="rounded-2xl border w-full h-[450px]"
             ></iframe>
             <div className="mt-6 flex flex-col gap-6">
-              <div className="flex justify-between text-stone-700">
-                <div className="flex flex-wrap gap-2">
-                  <h2 className="text-lg md:text-xl sm:text-[23px]">
-                    {movie?.title}
-                  </h2>
-                  <br />
-                  <span className="text-xl sm:text-2xl hidden lg:inline-block">
-                    .
-                  </span>
-                  <p className="text-md md:text-lg">
-                    {" "}
-                    {releaseDate.toUTCString().slice(5, 16)}
-                  </p>
-                  <span className="text-xl sm:text-2xl hidden lg:inline-block">
-                    .
-                  </span>
-                  <p className="text-md md:text-lg">
-                    {`${movie?.runtime}mins`}
-                  </p>
-                  <div className="flex wrap items-center">
-                    {movie?.genres.map((genre, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-between sm:ml-3 text-xs text-rose-700 lg:text-base font-bold leading-1"
-                      >
-                        {genre.name}
-                      </div>
-                    ))}{" "}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2 item-center">
-                  <img src={star} alt="star" className="w-4 h-4 md:w-7 h-7" />{" "}
-                  <p className="text-sm text-gray-300">
+              <div className="space-y-2">
+                <h2 className="text-lg md:text-xl sm:text-md">
+                  {movie?.title}
+                </h2>
+                <p className="inline-flex gap-2 w-full">
+                  Runtime: <span>{`${movie?.runtime}mins`}</span>
+                </p>
+                <p className="inline-flex gap-2 w-full">
+                  Release date:{" "}
+                  <span>{releaseDate.toUTCString().slice(5, 16)}</span>
+                </p>
+                <div className="inline-flex gap-2 items-center w-full">
+                  <p>Rating:</p>{" "}
+                  <img src={star} alt="star" className="w-4 h-4 md:w-7 h-7" />
+                  <p className="text-sm text-gray-400">
                     {movie?.vote_average.toFixed(1)}{" "}
                     <span className="text-stone-700">
                       | {movie?.vote_count}
                     </span>
                   </p>
                 </div>
+                <p className="inline-flex flex-wrap items-center gap-2">
+                  Genre:{" "}
+                  {movie?.genres.map((genre, index) => (
+                    <span
+                      key={index}
+                      className="flex justify-between sm:ml-3 text-xs text-rose-700 lg:text-base font-bold leading-1"
+                    >
+                      {genre.name}
+                    </span>
+                  ))}
+                </p>
               </div>
+
               <div className="flex flex-col md:flex md:flex-row gap-4 md:gap-2">
                 <div className="flex flex-col gap-4 w-full md:w-2/3 text-sm sm:text-md md:text-lg">
                   <p className="text-zinc-800">{movie?.overview}</p>
