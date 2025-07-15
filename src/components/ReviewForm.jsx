@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Rating from "./Rating";
 
 const ReviewForm = () => {
   const [rating, setRating] = useState(5);
@@ -20,10 +21,13 @@ const ReviewForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Leave a Review</h2>
-      <div className="space-y-1">
         <p className="text-sm text-gray-500">
           Your review will be visible to other users.
         </p>
+        <div className="space-y-1">
+          <Rating onRate={setRating} />
+        </div>
+      <div className="space-y-1">
         <label htmlFor="review">Comment</label>
         <textarea
           id="review"
@@ -33,7 +37,13 @@ const ReviewForm = () => {
           required
         />
       </div>
-      <button type="submit">Submit Review</button>
+      <button
+        disabled={!comment || comment.length < 10}
+        className="px-6 bg-rose-700 text-white py-2 rounded-lg mt-4 hover:bg-rose-800 transition disabled:bg-gray-300"
+        type="submit"
+      >
+        Submit Review
+      </button>
     </form>
   );
 };
