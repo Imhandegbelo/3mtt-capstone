@@ -33,35 +33,6 @@ const ReviewForm = () => {
           required
         />
       </div>
-      <label>
-        Name:
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Rating:
-        <select
-          value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
-        >
-          {[1, 2, 3, 4, 5].map((n) => (
-            <option key={n} value={n}>
-              {n}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Comment:
-        <textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          required
-        />
-      </label>
       <button type="submit">Submit Review</button>
     </form>
   );

@@ -23,8 +23,8 @@ export default function MovieSidebar({ id }) {
       <div className="flex flex-col gap-6 pt-5">
         <div className="ml-2 md:ml-4">
           <Link to="/" className="inline-flex gap-4 items-center">
-            <img src={images.tv} alt="tv-logo" className="size-8" />
-            <h2 className="text-xl text-slate-900 font-bold hidden lg:flex">
+            <img src={images.tv} alt="tv-logo" className="size-6" />
+            <h2 className="text-lg text-slate-900 font-bold hidden lg:flex">
               Moviebox
             </h2>
           </Link>

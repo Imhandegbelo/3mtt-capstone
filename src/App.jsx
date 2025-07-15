@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import "./App.css";
 import { SingleMovie } from "./pages/SingleMovie";
 import { ErrorPage } from "./pages/ErrorPage";
 import Login from "./pages/Login";
