@@ -1,8 +1,28 @@
 import { MovieCard } from "./MovieCard";
 import right_arrow from "../assets/images/ArrowRight.svg";
 import Footer from "./Footer";
+import { useEffect } from "react";
+import { useAuth } from "../context/authContext";
 
 export default function MovieGrid({ movies, genres }) {
+  const { user } = useAuth();
+
+  const isFavourite = (movieId) => {
+    return user?.favourites.includes(movieId);
+  };
+
+  if (!movies || movies.length === 0) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500 text-lg">No movies found</p>
+      </div>
+    );
+  }
+
+  useEffect(()=>{
+    
+  },[user])
+
   return (
     <div className="my-[70px] px-4 lg:px-12 xl:px-24">
       <div className="flex justify-between items-center mb-11">
@@ -24,6 +44,7 @@ export default function MovieGrid({ movies, genres }) {
           <MovieCard
             key={movie.id}
             genres={genres}
+            favourite={isFavourite(movie.id)}
             id={movie.id}
             title={movie.title}
             releaseDate={movie.release_date}

@@ -1,23 +1,26 @@
 import { useState } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import Input from "../components/Input";
-import { Link, useNavigate } from "react-router-dom";
-// import { userLogin } from "../services/userServices";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/authContext";
-// import { userLogin } from "../services/userServices";
 
 const Login = () => {
   const { login } = useAuth();
-  const [form, setForm] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
-
-  const handleChange = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value });
-  };
 
   const handleSubmit = async () => {
     setError("");
+    if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(email)) {
+      setError("Invalid email address");
+      return;
+    }
+
+    const form = {
+      email: email.toLowerCase().trim(),
+      password,
+    };
 
     try {
       await login(form);
@@ -37,22 +40,22 @@ const Login = () => {
           id="email"
           name="email"
           type="email"
-          value={form.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           label="Password"
           id="password"
           name="password"
           type="password"
-          value={form.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
 
         <button
-          disabled={form.email.length < 5 || form.password.length < 5}
+          disabled={email.length < 5 || password.length < 5}
           className="w-full bg-rose-700 text-white py-2 rounded-lg mt-4 hover:bg-rose-800 transition disabled:bg-gray-300"
           onClick={handleSubmit}
         >

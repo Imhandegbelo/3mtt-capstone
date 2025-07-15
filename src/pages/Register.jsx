@@ -2,24 +2,28 @@ import { useState } from "react";
 import AuthLayout from "../layout/AuthLayout";
 import Input from "../components/Input";
 import { useAuth } from "../context/authContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const { register } = useAuth();
-  const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  const handleChange = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value });
-  };
 
   const handleSubmit = async () => {
     setError("");
 
-    if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(form.email)) {
+    if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(email)) {
       setError("Invalid email address");
       return;
     }
+
+    const form = {
+      username: username.toLowerCase().trim(),
+      email: email.toLowerCase().trim(),
+      password: password,
+    };
 
     try {
       await register(form);
@@ -38,31 +42,31 @@ const Register = () => {
           label="Username"
           id="username"
           name="username"
-          value={form.username}
-          onChange={handleChange}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <Input
           label="Email"
           id="email"
           name="email"
           type="email"
-          value={form.email}
-          onChange={handleChange}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <Input
           label="Password"
           id="password"
           name="password"
           type="password"
-          value={form.password}
-          onChange={handleChange}
+          value={password}
+          onChange={(e) => setPassword(e.target.password)}
         />
 
         {error && <p className="text-sm text-red-600 mb-2">{error}</p>}
 
         <button
           type="button"
-          disabled={form.email.length < 5 || form.password.length < 5}
+          disabled={email.length < 5 || password.length < 5}
           className="w-full bg-rose-700 text-white py-2 rounded-lg mt-4 hover:bg-rose-800 transition"
           onClick={handleSubmit}
         >

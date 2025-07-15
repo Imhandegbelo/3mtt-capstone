@@ -10,6 +10,7 @@ import Button from "../components/SingleMovieButtons";
 import MovieSidebar from "../components/MovieSidebar/MovieSidebar";
 import Footer from "../components/Footer";
 import SingleMovieNav from "../components/SingleMovieNav";
+import ReviewForm from "../components/ReviewForm";
 
 export function SingleMovie() {
   const { id } = useParams();
@@ -46,7 +47,7 @@ export function SingleMovie() {
 
   return (
     <>
-      <div className="flex font-Poppins max-w-[1440px] mx-auto">
+      <div className="flex font-Poppins max-w-[1440px] mx-auto text-base">
         <div className="w-full h-screen basis-1/12 md:block md:basis-2/12">
           <div className="w-full border-4 fixed">
             <MovieSidebar id={id} />
@@ -107,7 +108,7 @@ export function SingleMovie() {
                       Director(s):{" "}
                       {directors.map((director, index) => (
                         <span key={`dir-${index}`} className="text-rose-700">
-                          {director.name + " - "}
+                          {director.name + (index < directors.length - 1 ? ", " : "")}
                         </span>
                       ))}
                     </p>
@@ -115,17 +116,14 @@ export function SingleMovie() {
                       Writers:{" "}
                       {writers.map((writer, index) => (
                         <span key={`writer-${index}`} className="text-rose-700">
-                          {writer.name + " - "}
+                          {writer.name + (index < writers.length - 1 ? ", " : "")}
                         </span>
                       ))}
                     </p>
-                    {/* <p className="">
-                      Writers:{" "}
-                      <span className="text-rose-700">
-                        {" "}
-                        Tom Cruise, Jennifer Connelly
-                      </span>{" "}
-                    </p> */}
+                    {/* <form onSubmit={(e)=>e.preventDefault()}>
+
+                    </form> */}
+                    <ReviewForm onSubmit={()=> console.log("")} />
                   </div>
                 </div>
                 <div className="flex flex-col w-full md:w-1/3 gap-4">

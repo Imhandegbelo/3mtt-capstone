@@ -29,5 +29,5 @@ export const addFavourites = async (movieId, token) => {
     movieId,
     config
   );
-  return response.data;
+  return response;
 };
